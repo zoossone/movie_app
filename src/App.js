@@ -1,35 +1,44 @@
 import React from "react";
-import PropTypes from "prop-types";
 
+class App extends React.Component {
 
-const foodILike = [{id:1, name: "kimchi", image: "https://cdn.pixabay.com/photo/2019/07/25/01/35/kimchi-4361465_1280.jpg", rating: 4.9},
- {id:2,name: "ramen", image: "https://cdn.pixabay.com/photo/2019/11/23/15/26/ramen-4647408_1280.jpg", rating: 5.1}, 
- {id:3,name: "samgiopsal", image: "https://cdn.pixabay.com/photo/2017/04/19/19/41/samgyupsal-2243385_1280.jpg", rating: 4.}, 
- {id:4,name: "chukumi", image: "https://cdn.pixabay.com/photo/2013/07/12/18/39/squid-153661_1280.png", rating: 3.8}
-]
+  constructor(props) {
+    super(props)
+    console.log("hello");
+  }
 
-function Food({name, picture, rating}) {
-  return (<div>
-      <h1>I like {name}</h1>
-      <h2>{rating}/5.0</h2>
-      <img src={picture} alt={name}/>
+  state = {
+    count: 0
+  }
+
+  add = () => {
+    this.setState(cur => ({count: cur.count + 1})) // setState를 해줄때 this.state.*** 등으로 직접 접근하는 방식은 옳지 않다. current를 사용하는 방법이 좋다.
+  }//state는 object이므로 setState는 항상 객체를 넣어줘야한다.
+  
+  minus = () =>  {
+    this.setState(cur => ({count: cur.count - 1}))
+  }
+
+  componentDidMount() { // component의 life cycle 1.생성자- 2.렌더- 3.컴포넌트 렌더 or 업데이트 렌더 - 4. 컴포넌트 죽음
+    console.log("Component rendered");
+  }
+
+  componentDidUpdate() {
+    console.log("I just updated");
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  render() {
+    console.log("I'm rendering");
+    return (<div>
+      <h1>The number is : {this.state.count}</h1>
+    <button onClick={this.add}>Add</button>
+    <button onClick={this.minus}>Minus</button>
     </div>)
-}
-
-Food.propTypes = { // 부모로부터 올바른 props를 받는지 확인하기 위한 모듈
-  name: PropTypes.string.isRequired,
-  picture: PropTypes.string.isRequired,
-  rating: PropTypes.number
-}
-
-function App() {
-  return (
-    <div>
-      {foodILike.map((dish) => {
-        return <Food key={dish.id} name={dish.name} picture={dish.image} rating={dish.rating}/>
-      })}
-    </div>
-  );
+  }
 }
 
 export default App;
